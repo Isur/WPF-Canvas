@@ -32,9 +32,18 @@ namespace drawApp
         public MainWindow()
         {
             InitializeComponent();
-            this.color = Color.FromRgb(0, 0, 0);
+            this.color = Color.FromRgb(255, 0, 0);
+            ColorSelected.Fill = new SolidColorBrush(this.color);
+
         }
 
+        public void setColor(Color c)
+        {
+            this.color.R = c.R;
+            this.color.G = c.G;
+            this.color.B = c.B;
+            ColorSelected.Fill = new SolidColorBrush(this.color);
+        }
         private void Canvas_MouseDown(object sender, MouseButtonEventArgs e)
         {
             if(this.mode == MODE.DRAWING)
@@ -147,14 +156,6 @@ namespace drawApp
             this.deleted.RemoveAt(0);
         }
 
-        private void ClrPcker_Background_SelectedColorChanged(object sender, RoutedPropertyChangedEventArgs<Color?> e)
-        {
-            byte r = ClrPcker_Background.SelectedColor.Value.R;
-            byte g = ClrPcker_Background.SelectedColor.Value.G;
-            byte b = ClrPcker_Background.SelectedColor.Value.B;
-            this.color = Color.FromRgb(r, g, b);
-        }
-
         private void clearBtn_Click(object sender, RoutedEventArgs e)
         {
             clearCanvas();
@@ -186,6 +187,12 @@ namespace drawApp
                     this.mode = MODE.DRAWING;
                     break;
             }
+        }
+
+         private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            ColorSelector colorSelector = new ColorSelector(this);
+            colorSelector.Show();
         }
     }
 }

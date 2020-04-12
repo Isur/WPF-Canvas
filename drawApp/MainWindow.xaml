@@ -7,21 +7,25 @@
         xmlns:local="clr-namespace:drawApp"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="819.333" ResizeMode="NoResize">
-    <Grid Background="#FF9B9A9A">
+    <Grid Background="#FF9B9A9A" Margin="0,0,-6,0">
+        
         <Canvas Name="paintSurface" HorizontalAlignment="Left" Height="419" VerticalAlignment="Top" Width="721" MouseDown="Canvas_MouseDown" MouseMove="Canvas_MouseMove">
             <Canvas.Background>
                 <SolidColorBrush Color="White" Opacity="1"/>
             </Canvas.Background>
         </Canvas>
-        <Grid Margin="726,10,0,0" HorizontalAlignment="Center" VerticalAlignment="Center" Width="85">
-            <xctk:ColorPicker x:Name="ClrPcker_Background" SelectedColorChanged="ClrPcker_Background_SelectedColorChanged" SelectedColor="Black" Width="80" Height="40" Margin="2,-138,3,238"/>
-            <Button x:Name="clearBtn" Content="Clear" Margin="2,-93,3,193" Click="clearBtn_Click" Width="80" Height="40" />
-            <Button x:Name="backBtn" Content="Back" Margin="2,-48,3,168" Click="backBtn_Click" Width="80" Height="20" />
-            <Button x:Name="nextBtn" Content="Next" Margin="2,-23,3,143" Click="nextBtn_Click" Width="80" Height="20" />
-            <ComboBox Name="ModeSelector" HorizontalAlignment="Left" Margin="0,0,-2,0" VerticalAlignment="Top" Width="80" SelectionChanged="ComboBox_SelectionChanged">
-                <ComboBoxItem IsSelected="True" Content="DRAWING" />
-                <ComboBoxItem Content="LINE"/>
-            </ComboBox>
-        </Grid>
+        <!--<Grid Margin="726,10,5,10" HorizontalAlignment="Center" VerticalAlignment="Center" RenderTransformOrigin="0.462,-0.493" Height="401" Width="88">-->
+            <StackPanel Orientation="Vertical" Margin="721,0,0,0">
+                <Button x:Name="clearBtn" Content="Clear" Click="clearBtn_Click" />
+                <Button x:Name="backBtn" Content="Back" Click="backBtn_Click" />
+                <Button x:Name="nextBtn" Content="Next"  Click="nextBtn_Click" />
+                <ComboBox Name="ModeSelector" SelectionChanged="ComboBox_SelectionChanged">
+                    <ComboBoxItem IsSelected="True" Content="DRAWING" />
+                    <ComboBoxItem Content="LINE"/>
+                </ComboBox>
+                <Button Content="Color:" Click="Button_Click_1" x:Name="ColorSelectButton"/>
+                <Rectangle x:Name="ColorSelected" Fill="#FFF4F4F5" HorizontalAlignment="Center" Stroke="Black" Height="20" Width="80"/>
+            </StackPanel>
+        <!--</Grid>-->
     </Grid>
 </Window>
