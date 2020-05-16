@@ -159,5 +159,23 @@ namespace drawApp
             Bitmap res = Compute(bmp, filter);
             Img.Source = BitmapToImageSource(res);
         }
+
+        private void custom_click(object sender, RoutedEventArgs e)
+        {
+            Console.WriteLine("FILTER CUSTOM");
+            var path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "image.png");
+            Bitmap bmp = (Bitmap)Bitmap.FromFile(path);
+
+            Double[,] customFilterData = new Double[,]
+            {
+                { Convert.ToDouble(a11.Text), Convert.ToDouble(a12.Text), Convert.ToDouble(a13.Text) },
+                { Convert.ToDouble(a21.Text), Convert.ToDouble(a22.Text), Convert.ToDouble(a23.Text) },
+                { Convert.ToDouble(a31.Text), Convert.ToDouble(a32.Text), Convert.ToDouble(a33.Text) }
+            };
+
+            Filter filter = new Custom(customFilterData);
+            Bitmap res = Compute(bmp, filter);
+            Img.Source = BitmapToImageSource(res);
+        }
     }
 }

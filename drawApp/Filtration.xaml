@@ -16,6 +16,38 @@
             <Button x:Name="filter5" Content="Average" Click="filter5_click" />
             <Button x:Name="filter6" Content="Circle" Click="filter6_click" />
             <Button x:Name="filter7" Content="Piramid" Click="filter7_click" />
+            <Grid Height="80" HorizontalAlignment="Center" VerticalAlignment="Center" Width="80">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <StackPanel>
+                        <TextBox Width="20" Height="20" Name="a11" />
+                        <TextBox Width="20" Height="20" Name="a21" />
+                        <TextBox Width="20" Height="20" Name="a31" />
+                    </StackPanel>
+                    <StackPanel>
+                        <TextBox Width="20" Height="20" Name="a12" />
+                        <TextBox Width="20" Height="20" Name="a22" />
+                        <TextBox Width="20" Height="20" Name="a32" />
+                    </StackPanel>
+                    <StackPanel>
+                        <TextBox Width="20" Height="20" Name="a13" />
+                        <TextBox Width="20" Height="20" Name="a23" />
+                        <TextBox Width="20" Height="20" Name="a33" />
+                    </StackPanel>
+                </StackPanel>
+                
+                <!--<TextBox Width="20" Height="20" Margin="10,10, 50, 0 "/>
+                <TextBox Width="20" Height="20" Margin="30,30, 30, -20 "/>
+                <TextBox Width="20" Height="20" Margin="50,50, 10, -40 "/>
+                
+                <TextBox Width="20" Height="20" Margin="30,10, 30, 0 "/>
+                <TextBox Width="20" Height="20" Margin="10,30, 50, -20 "/>
+                <TextBox Width="20" Height="20" Margin="30,50, 30, -40 "/>
+
+                <TextBox Width="20" Height="20" Margin="50,10, 10, 0 "/>
+                <TextBox Width="20" Height="20" Margin="50,30, 10, -20 "/>
+                <TextBox Width="20" Height="20" Margin="10,50, 50, -40 "/>-->
+            </Grid>
+            <Button x:Name="custom" Content="Custom" Click="custom_click" />
         </StackPanel>
     </Grid>
 </Window>

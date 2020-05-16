@@ -79,6 +79,7 @@
     <Compile Include="Filters\Laplace.cs" />
     <Compile Include="Filters\MeanRemoval.cs" />
     <Compile Include="Filters\Avg.cs" />
+    <Compile Include="Filters\Custom.cs" />
     <Compile Include="Filters\Vertical.cs" />
     <Compile Include="Filters\Horizontal.cs" />
     <Compile Include="Filters\Edge.cs" />
