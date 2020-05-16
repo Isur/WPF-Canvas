@@ -25,7 +25,8 @@
                 </ComboBox>
                 <Button Content="Color:" Click="Button_Click_1" x:Name="ColorSelectButton"/>
                 <Rectangle x:Name="ColorSelected" Fill="#FFF4F4F5" HorizontalAlignment="Center" Stroke="Black" Height="20" Width="80"/>
-            </StackPanel>
+                <Button Content="Filter" Click="FilterSelectButton_Click" x:Name="FilterSelectButton"/>
+        </StackPanel>
         <!--</Grid>-->
     </Grid>
 </Window>

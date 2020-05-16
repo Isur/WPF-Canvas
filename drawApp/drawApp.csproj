@@ -37,6 +37,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -73,8 +74,24 @@
     <Compile Include="ColorSelector.xaml.cs">
       <DependentUpon>ColorSelector.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Filters\Piramid.cs" />
+    <Compile Include="Filters\Circle.cs" />
+    <Compile Include="Filters\Laplace.cs" />
+    <Compile Include="Filters\MeanRemoval.cs" />
+    <Compile Include="Filters\Avg.cs" />
+    <Compile Include="Filters\Vertical.cs" />
+    <Compile Include="Filters\Horizontal.cs" />
+    <Compile Include="Filters\Edge.cs" />
+    <Compile Include="Filters\Filter.cs" />
+    <Compile Include="Filtration.xaml.cs">
+      <DependentUpon>Filtration.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Utils.cs" />
     <Page Include="ColorSelector.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Filtration.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

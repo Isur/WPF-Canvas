@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -193,6 +194,34 @@ namespace drawApp
         {
             ColorSelector colorSelector = new ColorSelector(this);
             colorSelector.Show();
+        }
+
+        private void toPng()
+        {
+            Transform transform = paintSurface.LayoutTransform;
+            paintSurface.LayoutTransform = null;
+            Size size = new Size(paintSurface.Width, paintSurface.Height);
+            paintSurface.Measure(size);
+            paintSurface.Arrange(new Rect(size));
+            RenderTargetBitmap renderBitmat = new RenderTargetBitmap((int)size.Width, (int)size.Height, 96d, 96d, PixelFormats.Pbgra32);
+            renderBitmat.Render(paintSurface);
+
+            using (FileStream outstrem = new FileStream("image.png", FileMode.Create))
+            {
+                PngBitmapEncoder encoder = new PngBitmapEncoder();
+                encoder.Frames.Add(BitmapFrame.Create(renderBitmat));
+                encoder.Save(outstrem);
+            }
+
+            paintSurface.LayoutTransform = transform;
+            Filtration filtr = new Filtration();
+            filtr.Show();
+        }
+
+        private void FilterSelectButton_Click(object sender, RoutedEventArgs e)
+        {
+            toPng();
+            Console.WriteLine("DUPA");
         }
     }
 }
