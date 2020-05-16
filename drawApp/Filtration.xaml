@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:drawApp"
         mc:Ignorable="d"
-        Title="Filtration" Height="450" Width="820">
+        Title="Filtration" Height="450" Width="820" ResizeMode="NoResize">
     <Grid>
         <Image x:Name="Img" Source="./image.png" HorizontalAlignment="Left" Height="419" Margin="0,0,0,0" VerticalAlignment="Top" Width="721"/>
         <StackPanel Orientation="Vertical" Margin="721,0,0,0">

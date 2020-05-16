@@ -29,8 +29,8 @@ namespace drawApp
         public ColorSelector(MainWindow caller)
         {
             this.rgb = new RGBColor(0, 0, 0);
-            this.hex = rgb.GetHexColor();
-            this.cmyk = rgb.GetCMYKColor();
+            this.hex = this.rgb.GetHexColor();
+            this.cmyk = this.hex.GetCMYKColor();
             InitializeComponent();
             this.caller = caller;
             this.setColors(COLOR_TYPES.INIT);
@@ -104,7 +104,7 @@ namespace drawApp
 
         private void CMYK_C_Slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            CMYK_C_Text.Text = ((int) e.NewValue).ToString();
+            CMYK_C_Text.Text = ((int)e.NewValue).ToString();
         }
 
         private void CMYK_M_Slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
@@ -122,15 +122,15 @@ namespace drawApp
             CMYK_K_Text.Text = ((int)e.NewValue).ToString();
         }
 
-        private void HEX_Text_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            this.setColors(COLOR_TYPES.HEX);
-        }
-
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             this.caller.setColor(this.rgb.GetColor());
             this.Close();
+        }
+
+        private void Save_Hex(object sender, RoutedEventArgs e)
+        {
+            this.setColors(COLOR_TYPES.HEX);
         }
     }
 }

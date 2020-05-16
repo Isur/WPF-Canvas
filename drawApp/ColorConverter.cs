@@ -123,10 +123,11 @@ namespace drawApp
 
         public CMYKColor(int c, int m, int y, int k)
         {
-            C = c;
-            M = m;
-            Y = y;
-            K = k;
+            C = c < 0 ? 0 : c;
+            M = m < 0 ? 0 : m;
+            Y = y < 0 ? 0 : y;
+            K = k < 0 ? 0 : k;
+            Console.WriteLine($"{C}={c} | {M}={m} | {Y}={y} | {K}={k}");
         }
 
         public Color GetColor()
