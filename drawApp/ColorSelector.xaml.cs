@@ -26,9 +26,9 @@ namespace drawApp
         RGBColor rgb;
         CMYKColor cmyk;
         MainWindow caller;
-        public ColorSelector(MainWindow caller)
+        public ColorSelector(MainWindow caller, Color currentColor)
         {
-            this.rgb = new RGBColor(0, 0, 0);
+            this.rgb = new RGBColor(currentColor.R, currentColor.G, currentColor.B);
             this.hex = this.rgb.GetHexColor();
             this.cmyk = this.hex.GetCMYKColor();
             InitializeComponent();
@@ -75,6 +75,8 @@ namespace drawApp
             CMYK_M_Slider.Value = this.cmyk.M;
             CMYK_Y_Slider.Value = this.cmyk.Y;
             CMYK_K_Slider.Value = this.cmyk.K;
+
+            colorPreview.Fill = new SolidColorBrush(Color.FromRgb((byte)this.rgb.R, (byte)this.rgb.G, (byte)this.rgb.B));
         }
 
         private void RGB_DragCompleted(object sender, System.Windows.Controls.Primitives.DragCompletedEventArgs e)

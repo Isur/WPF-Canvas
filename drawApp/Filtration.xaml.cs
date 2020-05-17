@@ -26,12 +26,7 @@ namespace drawApp
         public Filtration()
         {
             InitializeComponent();
-            BitmapImage bitmap = new BitmapImage();
-            bitmap.BeginInit();
-            var path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "image.png");
-            bitmap.UriSource = new Uri(path);
-            bitmap.EndInit();
-            Img.Source = bitmap;
+            showOriginal();
         }
 
         private void filter1_Click(object sender, RoutedEventArgs e)
@@ -176,6 +171,21 @@ namespace drawApp
             Filter filter = new Custom(customFilterData);
             Bitmap res = Compute(bmp, filter);
             Img.Source = BitmapToImageSource(res);
+        }
+
+        private void original_Click(object sender, RoutedEventArgs e)
+        {
+            showOriginal();
+        }
+
+        private void showOriginal()
+        {
+            BitmapImage bitmap = new BitmapImage();
+            bitmap.BeginInit();
+            var path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "image.png");
+            bitmap.UriSource = new Uri(path);
+            bitmap.EndInit();
+            Img.Source = bitmap;
         }
     }
 }

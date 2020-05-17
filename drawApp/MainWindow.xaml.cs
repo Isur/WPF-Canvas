@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -16,7 +17,7 @@ using System.Windows.Shapes;
 
 namespace drawApp
 {
-    enum MODE { DRAWING, LINE }
+    enum MODE { DRAWING, LINE, EDIT }
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
@@ -27,8 +28,12 @@ namespace drawApp
         Point firstPoint;
         Point secondPoint;
         Boolean clicked = false;
+        Line editable;
         Ellipse circle;
+        Ellipse clickedCircle;
         MODE mode = MODE.DRAWING;
+        List<Line> lines = new List<Line> { };
+        List<Ellipse> circles = new List<Ellipse> { };
         List<UIElement> deleted = new List<UIElement>();
         public MainWindow()
         {
@@ -62,9 +67,19 @@ namespace drawApp
                 else
                 {
                     secondClick(e.GetPosition(this));
-                    drawLine();
+                    drawLine(true);
                 }
+            } else if(this.mode == MODE.EDIT)
+            {
+                
             }
+        }
+
+        private Point dist(Point p1, Point p2, Point p3)
+        {
+            double distanceP1 = Math.Sqrt(Math.Pow((p1.X - p3.X), 2) + Math.Pow((p1.Y - p3.Y), 2));
+            double distanceP2 = Math.Sqrt(Math.Pow((p2.X - p3.X), 2) + Math.Pow((p2.Y - p3.Y), 2));
+            return distanceP1 > distanceP2 ? p2 : p1;
         }
 
         private void Canvas_MouseMove(object sender, MouseEventArgs e)
@@ -74,6 +89,31 @@ namespace drawApp
                  if (e.LeftButton == MouseButtonState.Pressed)
                 {
                     drawPoint(e.GetPosition(this));
+                }
+            } else if(this.mode == MODE.EDIT)
+            {
+                if (e.LeftButton == MouseButtonState.Pressed)
+                {
+                    Point p = e.GetPosition(this);
+                    if (this.editable != null)
+                    {
+                        Point x = dist(new Point(this.editable.X1, this.editable.Y1), new Point(this.editable.X2, this.editable.Y2), p);
+                        if (x.X == this.editable.X1 && this.editable.Y1 == x.Y)
+                        {
+                            this.editable.X1 = p.X;
+                            this.editable.Y1 = p.Y;
+                        }
+                        else
+                        {
+                            this.editable.X2 = p.X;
+                            this.editable.Y2 = p.Y;
+                        }
+                        this.clickedCircle.SetValue(Canvas.LeftProperty, p.X - 5);
+                        this.clickedCircle.SetValue(Canvas.TopProperty, p.Y - 5);
+                    }
+                } else if (e.LeftButton == MouseButtonState.Released)
+                {
+                    this.editable = null;
                 }
             }
         }
@@ -106,7 +146,7 @@ namespace drawApp
             this.clicked = false;
         }
 
-        private void drawLine()
+        private void drawLine(Boolean save)
         {
             Line line = new Line();
             line.Stroke = new SolidColorBrush(this.color);
@@ -114,8 +154,20 @@ namespace drawApp
             line.X2 = this.secondPoint.X;
             line.Y1 = this.firstPoint.Y;
             line.Y2 = this.secondPoint.Y;
-
+            line.MouseDown += new MouseButtonEventHandler(line_click);
             paintSurface.Children.Add(line);
+            lines.Add(line);
+        }
+
+        private void line_click(object sender, MouseButtonEventArgs e)
+        {
+            if(this.mode == MODE.EDIT)
+            {
+                Point p1 = new Point( ((Line)sender).X1, ((Line) sender).Y1);
+                Point p2 = new Point(((Line)sender).X2, ((Line)sender).Y2);
+                drawCircle(p1);
+                drawCircle(p2);
+            }
         }
 
         private void drawCircle(Point point)
@@ -130,12 +182,52 @@ namespace drawApp
             };
             circle.SetValue(Canvas.LeftProperty, point.X - 5);
             circle.SetValue(Canvas.TopProperty, point.Y - 5);
+            circle.MouseDown += new MouseButtonEventHandler(circleClick);
             paintSurface.Children.Add(circle);
+            this.circles.Add(circle);
+        }
+
+        private void circleClick(object sender, MouseButtonEventArgs e)
+        {
+            if(this.mode == MODE.EDIT)
+            {
+                Point f = e.GetPosition(this);
+                this.clickedCircle = (Ellipse)sender;
+                Line editableLine = findLine(f);
+                if (editableLine != null)
+                {
+                    this.editable = editableLine;
+                }
+            }
+        }
+
+        private Line findLine(Point p)
+        {
+            return this.lines.Find(line =>
+            {
+                return posInRange(p, new Point(line.X1, line.Y1)) || posInRange(p, new Point(line.X2, line.Y2));
+            });
+        }
+
+        private Boolean posInRange(Point p1, Point p2)
+        {
+            if (Math.Abs(p1.X - p2.X) > 5) return false;
+            if (Math.Abs(p1.Y - p2.Y) > 5) return false;
+            return true;
+        }
+
+        private void removeAllCircles()
+        {
+            this.circles.ForEach(ci =>
+            {
+                paintSurface.Children.Remove(ci);
+            });
         }
 
         private void removeCircle()
         {
             paintSurface.Children.Remove(this.circle);
+            this.circles.Remove(this.circle);
         }
 
         private void clearCanvas()
@@ -143,39 +235,17 @@ namespace drawApp
             paintSurface.Children.Clear();
         }
 
-        private void back()
-        {
-            if (paintSurface.Children.Count <= 0) return;
-            this.deleted.Add(paintSurface.Children[paintSurface.Children.Count - 1]);
-            paintSurface.Children.RemoveAt(paintSurface.Children.Count - 1);
-        }
-
-        private void next()
-        {
-            if (this.deleted.Count <= 0) return;
-            paintSurface.Children.Add(this.deleted[0]);
-            this.deleted.RemoveAt(0);
-        }
-
         private void clearBtn_Click(object sender, RoutedEventArgs e)
         {
             clearCanvas();
-        }
-
-        private void backBtn_Click(object sender, RoutedEventArgs e)
-        {
-            back();
-        }
-
-        private void nextBtn_Click(object sender, RoutedEventArgs e)
-        {
-            next();
         }
 
         private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             int mode = ModeSelector.SelectedIndex;
             removeCircle();
+            this.removeAllCircles();
+            this.circles.Clear();
             switch (mode)
             {
                 case 0:
@@ -183,6 +253,9 @@ namespace drawApp
                     break;
                 case 1:
                     this.mode = MODE.LINE;
+                    break;
+                case 2:
+                    this.mode = MODE.EDIT;
                     break;
                 default:
                     this.mode = MODE.DRAWING;
@@ -192,7 +265,7 @@ namespace drawApp
 
          private void Button_Click_1(object sender, RoutedEventArgs e)
         {
-            ColorSelector colorSelector = new ColorSelector(this);
+            ColorSelector colorSelector = new ColorSelector(this, this.color);
             colorSelector.Show();
         }
 
@@ -221,7 +294,6 @@ namespace drawApp
         private void FilterSelectButton_Click(object sender, RoutedEventArgs e)
         {
             toPng();
-            Console.WriteLine("DUPA");
         }
     }
 }

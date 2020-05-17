@@ -7,7 +7,6 @@
         mc:Ignorable="d"
         Title="ColorSelector" Height="472.8" Width="317.6" ResizeMode="NoResize">
     <Grid>
-        <Button Content="SAVE" HorizontalAlignment="Left" Margin="188,394,0,0" VerticalAlignment="Top" Width="75" Click="Button_Click"/>
         
         <Label Content="HEX:" HorizontalAlignment="Left" Margin="22,10,0,0" VerticalAlignment="Top"/>
         <TextBox MaxLength="6" x:Name="HEX_Text" HorizontalAlignment="Left" Height="23" Margin="100,14,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" />
@@ -45,5 +44,7 @@
         <Slider x:Name="CMYK_K_Slider" Thumb.DragCompleted="CMYK_DragCompleted" Minimum="0" Maximum="100" HorizontalAlignment="Left" Margin="100,366,0,0" VerticalAlignment="Top" Width="120" ValueChanged="CMYK_K_Slider_ValueChanged" />
         <TextBox IsReadOnly="True" x:Name="CMYK_K_Text" HorizontalAlignment="Left" Height="23" Margin="239,366,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="49" RenderTransformOrigin="0.404,2.278"/>
 
+        <Rectangle Width="40" Height="20" Margin="0,394,180,0" x:Name="colorPreview" />
+        <Button Content="SAVE" HorizontalAlignment="Left" Margin="188,394,0,0" VerticalAlignment="Top" Width="75" Click="Button_Click"/>
     </Grid>
 </Window>
